@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Abdullah Al Mahmud Emon </title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📖%3C/text%3E%3C/svg%3E" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --w: clamp(150px, min(34vw, calc((100svh - 230px) / 1.4)), 430px);
+        --h: calc(var(--w) * 1.4);
+        --bg1: #3a2418;
+        --bg2: #0e0705;
+        --t1: #3a2314;
+        --t2: #74482a;
+        --paper: #f5edda;
+        --ink: #2b2119;
+        --accent: #9c3d2e;
+        --cover: #6b2a22;
+        --gold: #e2bf72;
+        --muted: #85705a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg1: #1f2030;
+          --bg2: #07070b;
+          --t1: #1b1612;
+          --t2: #3d2b1d;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg1: #1f2030;
+        --bg2: #07070b;
+        --t1: #1b1612;
+        --t2: #3d2b1d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: radial-gradient(ellipse at 50% 30%, var(--bg1), var(--bg2) 80%);
+        font-family: 'EB Garamond', Georgia, serif;
+        color: var(--ink);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+      }
+      .table {
+        position: fixed;
+        left: -30%;
+        width: 160%;
+        bottom: -8vh;
+        height: 62vh;
+        background:
+          repeating-linear-gradient(
+            90deg,
+            transparent 0 38px,
+            rgba(0, 0, 0, 0.18) 38px 40px,
+            transparent 40px 95px,
+            rgba(255, 220, 170, 0.05) 95px 98px
+          ),
+          linear-gradient(var(--t1), var(--t2));
+        transform: perspective(800px) rotateX(64deg);
+        transform-origin: 50% 100%;
+        box-shadow: inset 0 80px 120px rgba(0, 0, 0, 0.6);
+      }
+      .lamp {
+        position: fixed;
+        inset: -10% 10% 20%;
+        background: radial-gradient(closest-side, rgba(255, 196, 120, 0.22), transparent);
+        pointer-events: none;
+        animation: flick 6s ease-in-out infinite;
+      }
+      @keyframes flick {
+        0%,
+        100% {
+          opacity: 0.9;
+        }
+        20% {
+          opacity: 0.7;
+        }
+        35% {
+          opacity: 1;
+        }
+        60% {
+          opacity: 0.78;
+        }
+        80% {
+          opacity: 0.95;
+        }
+      }
+      .dust {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .dust span {
+        position: absolute;
+        bottom: -10px;
+        border-radius: 50%;
+        background: rgba(255, 220, 160, 0.7);
+        animation: rise linear infinite;
+      }
+      @keyframes rise {
+        from {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        15% {
+          opacity: 0.8;
+        }
+        to {
+          transform: translate(var(--dx), -105vh);
+          opacity: 0;
+        }
+      }
+      .scene {
+        perspective: 2200px;
+        animation: enter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        position: relative;
+      }
+      @keyframes enter {
+        from {
+          opacity: 0;
+          transform: translateY(50px) scale(0.92);
+        }
+      }
+      .book {
+        position: relative;
+        width: calc(var(--w) * 2);
+        height: var(--h);
+        transform-style: preserve-3d;
+        transform: translateX(var(--sx, -25%)) rotateX(var(--rx, 14deg)) rotateY(var(--ry, 0deg));
+        transition: transform 0.6s cubic-bezier(0.65, 0, 0.25, 1);
+        animation: bob 7s ease-in-out infinite;
+      }
+      @keyframes bob {
+        50% {
+          translate: 0 -6px;
+        }
+      }
+      .back-cover,
+      .left-board {
+        position: absolute;
+        top: -7px;
+        height: calc(100% + 14px);
+        background: var(--cover);
+        box-shadow:
+          0 1px 0 #e8dcc2,
+          0 2px 0 #c9bb99,
+          0 3px 0 #e8dcc2,
+          0 4px 0 #c9bb99,
+          0 5px 0 var(--cover),
+          0 40px 50px rgba(0, 0, 0, 0.65);
+      }
+      .back-cover {
+        right: -6px;
+        width: calc(var(--w) + 6px);
+        border-radius: 0 10px 10px 0;
+      }
+      .left-board {
+        left: -6px;
+        width: calc(var(--w) + 6px);
+        border-radius: 10px 0 0 10px;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      .book.open .left-board {
+        opacity: 1;
+      }
+      .leaf {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: var(--w);
+        height: 100%;
+        transform-origin: left center;
+        transform-style: preserve-3d;
+        cursor: pointer;
+        will-change: transform;
+      }
+      .leaf.flipped {
+        transform: rotateY(-180deg);
+      }
+      .leaf.tf {
+        animation: flipF 0.65s cubic-bezier(0.45, 0.05, 0.25, 1) both;
+      }
+      .leaf.tb {
+        animation: flipB 0.65s cubic-bezier(0.45, 0.05, 0.25, 1) both;
+      }
+      @keyframes flipF {
+        0% {
+          transform: rotateY(0);
+        }
+        40% {
+          transform: rotateY(-70deg) skewY(2.5deg) translateZ(25px);
+        }
+        70% {
+          transform: rotateY(-130deg) skewY(-2deg) translateZ(18px);
+        }
+        100% {
+          transform: rotateY(-180deg);
+        }
+      }
+      @keyframes flipB {
+        0% {
+          transform: rotateY(-180deg);
+        }
+        30% {
+          transform: rotateY(-130deg) skewY(-2deg) translateZ(18px);
+        }
+        60% {
+          transform: rotateY(-70deg) skewY(2.5deg) translateZ(25px);
+        }
+        100% {
+          transform: rotateY(0);
+        }
+      }
+      /* .face is the size container; .in carries padding + font size (cqw must resolve against .face) */
+      .face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        container-type: size;
+        overflow: hidden;
+      }
+      .front {
+        border-radius: 0 6px 6px 0;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.22), transparent 10%),
+          repeating-linear-gradient(0deg, transparent 0 3px, rgba(120, 90, 50, 0.045) 3px 4px),
+          var(--paper);
+      }
+      .back {
+        transform: rotateY(180deg);
+        border-radius: 6px 0 0 6px;
+        background:
+          linear-gradient(270deg, rgba(0, 0, 0, 0.22), transparent 10%),
+          repeating-linear-gradient(0deg, transparent 0 3px, rgba(120, 90, 50, 0.045) 3px 4px),
+          var(--paper);
+      }
+      .face::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.3), transparent 65%);
+        transition: opacity 0.6s;
+      }
+      .leaf.flipped .front::after {
+        opacity: 1;
+      }
+      .in {
+        position: absolute;
+        inset: 0;
+        padding: 17cqw 10cqw 15cqw;
+        font-size: max(12px, 4.4cqw);
+        line-height: 1.42;
+        overflow: hidden;
+      }
+      .in > * {
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 0.35s,
+          transform 0.35s;
+      }
+      .leaf:not(.flipped) .front .in > *,
+      .leaf.flipped .back .in > * {
+        opacity: 1;
+        transform: none;
+        transition-delay: calc(0.25s + var(--i, 0) * 0.04s);
+      }
+      .in > *:nth-child(1) {
+        --i: 0;
+      }
+      .in > *:nth-child(2) {
+        --i: 1;
+      }
+      .in > *:nth-child(3) {
+        --i: 2;
+      }
+      .in > *:nth-child(4) {
+        --i: 3;
+      }
+      .in > *:nth-child(5) {
+        --i: 4;
+      }
+      .in > *:nth-child(6) {
+        --i: 5;
+      }
+      .in > *:nth-child(7) {
+        --i: 6;
+      }
+      .in > *:nth-child(8) {
+        --i: 7;
+      }
+      h1,
+      h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        margin: 0;
+        font-weight: 500;
+      }
+      .rh {
+        position: absolute;
+        top: 6.5cqw;
+        left: 10cqw;
+        right: 10cqw;
+        display: flex;
+        justify-content: space-between;
+        font-size: 2.7cqw;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-bottom: 0.3cqw solid rgba(0, 0, 0, 0.2);
+        padding-bottom: 1.4cqw;
+      }
+      .pn {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 6cqw;
+        text-align: center;
+        font-style: italic;
+        color: var(--muted);
+        font-size: 4.2cqw;
+      }
+      .ch {
+        text-align: center;
+        margin-bottom: 5cqw;
+      }
+      .ch small {
+        display: block;
+        font-style: italic;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        font-size: 3.2cqw;
+        color: var(--accent);
+      }
+      .ch h2 {
+        font-size: 9.5cqw;
+        line-height: 1.15;
+        margin: 1.5cqw 0 2.5cqw;
+      }
+      .rule {
+        display: block;
+        width: 24cqw;
+        height: 0.4cqw;
+        margin: 0 auto;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      }
+      .in p {
+        margin: 0 0 3cqw;
+        text-align: justify;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        overflow-wrap: break-word;
+        orphans: 2;
+        widows: 2;
+      }
+      .in p::first-letter {
+        font:
+          500 3.3em/0.74 'Playfair Display',
+          Georgia,
+          serif;
+        float: left;
+        padding: 0.04em 0.09em 0 0;
+        color: var(--accent);
+      }
+      .orn {
+        text-align: center;
+        color: var(--accent);
+        font-size: 6cqw;
+        margin-top: 3cqw;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .toc {
+        list-style: none;
+        padding: 0;
+        margin: 2cqw 0 4cqw;
+      }
+      .toc li {
+        display: flex;
+        align-items: baseline;
+        gap: 2cqw;
+        padding: 2.1cqw 0;
+        font-size: 5.4cqw;
+      }
+      .toc b {
+        font-family: 'Playfair Display', serif;
+        font-weight: 500;
+        color: var(--accent);
+        min-width: 9cqw;
+      }
+      .dots {
+        flex: 1;
+        border-bottom: 0.35cqw dotted var(--muted);
+        transform: translateY(-1cqw);
+      }
+      .skill-group {
+        margin-bottom: 6cqw;
+      }
+      .skill-group h3 {
+        margin: 0 0 2cqw;
+        color: var(--accent);
+        font:
+          italic 500 5.8cqw 'Playfair Display',
+          serif;
+      }
+      .skill-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.6cqw;
+      }
+      .skill-list span {
+        padding: 1cqw 2.4cqw;
+        border: 0.3cqw solid rgba(0, 0, 0, 0.18);
+        border-radius: 99px;
+        font-size: 4.2cqw;
+      }
+      .contact a {
+        display: flex;
+        gap: 2cqw;
+        color: var(--ink);
+        text-decoration: none;
+        padding: 2.4cqw 0;
+        border-bottom: 0.3cqw solid rgba(0, 0, 0, 0.14);
+        transition:
+          padding 0.3s,
+          color 0.3s;
+      }
+      .contact a:hover {
+        padding-left: 3cqw;
+        color: var(--accent);
+      }
+      .cover .in {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: var(--gold);
+      }
+      .cover {
+        border-radius: 0 10px 10px 0;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.4),
+            transparent 10%,
+            rgba(255, 255, 255, 0.07) 55%
+          ),
+          radial-gradient(circle at 30% 20%, #8a3a30, var(--cover) 70%) !important;
+      }
+      .cover::before {
+        content: '';
+        position: absolute;
+        inset: 6cqw;
+        border: 0.6cqw solid var(--gold);
+        opacity: 0.55;
+        outline: 0.3cqw solid var(--gold);
+        outline-offset: -3cqw;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .cover h1 {
+        font-size: 10.5cqw;
+        line-height: 1.12;
+        margin: 4cqw 0;
+      }
+      .sub {
+        letter-spacing: 0.3em;
+        font-size: 3.2cqw;
+        text-transform: uppercase;
+      }
+      .cover .rule {
+        background: var(--gold);
+        margin: 1cqw 0 4cqw;
+      }
+      .hint {
+        margin-top: 10cqw;
+        font-style: italic;
+        font-size: 4cqw;
+        animation: pulse 2.6s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .photo {
+        width: 40cqw;
+        height: 50cqw;
+        margin: 0 auto 3cqw;
+        padding: 1.6cqw;
+        background: #fff;
+        border: 0.7cqw solid var(--accent);
+        box-shadow: 0 1.5cqw 4cqw rgba(0, 0, 0, 0.3);
+      }
+      .about-photo {
+        width: 28cqw;
+        height: 32cqw;
+      }
+      .photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .cap {
+        text-align: center;
+        margin-bottom: 4cqw;
+      }
+      .cap b {
+        display: block;
+        font:
+          500 6cqw 'Playfair Display',
+          serif;
+      }
+      .mid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+      }
+      .mid h2 {
+        font-size: 12cqw;
+        margin: 2cqw 0 3cqw;
+      }
+      .in button {
+        font: inherit;
+        font-size: 4.4cqw;
+        padding: 2cqw 6cqw;
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        border-radius: 99px;
+        cursor: pointer;
+        transition: transform 0.3s;
+        margin-top: 4cqw;
+      }
+      .in button:hover {
+        transform: scale(1.07);
+      }
+      .nav {
+        position: fixed;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: #ecdfc6;
+        font-size: 16px;
+        z-index: 200;
+        animation: enter 1.2s 0.5s both;
+        white-space: nowrap;
+      }
+      .nav button {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(236, 223, 198, 0.4);
+        background: rgba(0, 0, 0, 0.3);
+        color: #ecdfc6;
+        font-size: 18px;
+        cursor: pointer;
+        transition:
+          background 0.25s,
+          transform 0.25s;
+      }
+      .nav button:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+      .nav button:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+      @media (max-width: 760px), (max-aspect-ratio: 4/5) {
+        :root {
+          --w: min(88vw, calc((100svh - 150px) / 1.4));
+        }
+        .book {
+          width: var(--w);
+          --rx: 6deg !important;
+          --ry: 0deg !important;
+        }
+        .left-board,
+        .back-cover,
+        .back {
+          display: none;
+        }
+        .table {
+          height: 45vh;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 0.01s !important;
+          animation-duration: 0.01s !important;
+        }
+        .dust,
+        .lamp {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table"></div>
+    <div class="lamp"></div>
+    <div class="dust" id="dust"></div>
+    <div class="scene">
+      <div class="book" id="book">
+        <div class="left-board"></div>
+        <div class="back-cover"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button id="prev" aria-label="Previous page">←</button><span id="status">Closed</span
+      ><button id="next" aria-label="Next page">→</button>
+    </div>
+    <script>
+      (function () {
+        var book = document.getElementById('book'),
+          prev = document.getElementById('prev'),
+          next = document.getElementById('next'),
+          st = document.getElementById('status');
+        var mq = matchMedia('(max-width:760px),(max-aspect-ratio:4/5)'),
+          single = false,
+          p = 0,
+          N = 0,
+          leaves = [];
+        var rh = '<div class="rh"><span>Abdullah AL Mahmud Emon</span><span>2026</span></div>';
+        function pn(t) {
+          return '<div class="pn">— ' + t + ' —</div>';
+        }
+        function ch(a, b) {
+          return (
+            '<div class="ch"><small>' + a + '</small><h2>' + b + '</h2><i class="rule"></i></div>'
+          );
+        }
+        function sg(title, skills) {
+          return (
+            '<section class="skill-group"><h3>' +
+            title +
+            '</h3><div class="skill-list">' +
+            skills
+              .map(function (skill) {
+                return '<span>' + skill + '</span>';
+              })
+              .join('') +
+            '</div></section>'
+          );
+        }
+        function toc(n, t, pg) {
+          return (
+            '<li><b>' +
+            n +
+            '</b><span>' +
+            t +
+            '</span><span class="dots"></span><span>' +
+            pg +
+            '</span></li>'
+          );
+        }
+        var pages = [
+          '<div class="sub">Portfolio · 2026</div><h1>Abdullah<br>AL Mahmud<br>Emon</h1><i class="rule"></i><div class="sub">Developer &amp; Designer</div><div class="hint">Tap to open</div>',
+          rh +
+            ch('Contents', 'Table of Chapters') +
+            '<ul class="toc">' +
+            toc('I', 'About Me', 2) +
+            toc('II', 'Skills', 3) +
+            toc('III', 'Projects', 5) +
+            toc('IV', 'Contact', 6) +
+            '</ul>' +
+            pn(1),
+          rh +
+            ch('Chapter I', 'About Me') +
+            '<div class="photo about-photo"><img alt="Portrait of Abdullah AL Mahmud Emon" src="./IMG_6684.jpg"></div><div class="cap"><b>Abdullah AL Mahmud Emon</b><span class="sub muted">Developer &amp; Designer</span></div><p>I’m a student and developer who enjoys turning ideas into clean, useful software.</p>' +
+            pn(2),
+          rh +
+            ch('Chapter II', 'Skills') +
+            sg('Programming Languages', ['C', 'C++', 'Java', 'Python']) +
+            sg('Web Development', ['HTML', 'Tailwind CSS', 'JavaScript', 'PHP']) +
+            pn(3),
+          rh +
+            ch('Chapter II · continued', 'More Skills') +
+            sg('Frameworks & Platforms', ['Django', 'React', 'Node.js', 'Android Studio']) +
+            sg('Databases & Tools', ['MySQL', 'PostgreSQL', 'MongoDB', 'MATLAB', 'Unity', 'Git']) +
+            pn(4),
+          rh +
+            ch('Chapter III', 'Projects') +
+            '<p>See what I’m building and explore my projects on GitHub.</p><div class="contact"><a href="https://github.com/emon6000" target="_blank" rel="noopener noreferrer">⌥ github.com/emon6000</a></div>' +
+            pn(5),
+          rh +
+            ch('Chapter IV', 'Contact') +
+            '<p>For projects, opportunities, or just a hello, get in touch.</p><div class="contact"><a href="mailto:abdullahemon6377@gmail.com">✉ abdullahemon6377@gmail.com</a><a href="https://github.com/emon6000" target="_blank" rel="noopener noreferrer">⌥ github.com/emon6000</a><a href="https://www.linkedin.com/in/abdem0n/" target="_blank" rel="noopener noreferrer">in linkedin.com/in/abdem0n</a></div>' +
+            pn(6),
+          rh +
+            '<div class="mid"><div class="orn">❦</div><p>Thank you for taking the time to read this book. I hope it shows who I am and the work I love.</p><button data-home>Close the book</button></div>' +
+            pn(7),
+          rh +
+            '<div class="mid"><div class="orn">❦</div><h2>The End</h2><div class="muted"><i>of this chapter, and the start of the next.</i></div></div>' +
+            pn(8),
+        ];
+        function build() {
+          [].slice.call(book.querySelectorAll('.leaf')).forEach(function (l) {
+            l.remove();
+          });
+          single = mq.matches;
+          var L = [];
+          if (single)
+            pages.forEach(function (h) {
+              L.push([h, '']);
+            });
+          else for (var i = 0; i < pages.length; i += 2) L.push([pages[i], pages[i + 1]]);
+          leaves = L.map(function (pr, i) {
+            var d = document.createElement('div');
+            d.className = 'leaf';
+            d.innerHTML =
+              '<div class="face front' +
+              (i === 0 ? ' cover' : '') +
+              '"><div class="in">' +
+              pr[0] +
+              '</div></div><div class="face back"><div class="in">' +
+              pr[1] +
+              '</div></div>';
+            d.addEventListener('click', function (e) {
+              if (e.target.closest('a')) return;
+              if (e.target.closest('[data-home]')) {
+                go(0);
+                return;
+              }
+              if (single) {
+                var r = d.getBoundingClientRect();
+                e.clientX < r.left + r.width * 0.3 && p > 0 ? go(p - 1) : fwd();
+              } else go(i < p ? i : i + 1);
+            });
+            book.appendChild(d);
+            return d;
+          });
+          N = leaves.length;
+          render(true, p);
+        }
+        function render(first, old) {
+          leaves.forEach(function (l, i) {
+            var f = i < p,
+              was = l.classList.contains('flipped'),
+              z = f ? i + 1 : N - i;
+            if (first) {
+              l.classList.toggle('flipped', f);
+              l.style.zIndex = z;
+              return;
+            }
+            if (was === f) return;
+            var k = f ? i - old : old - 1 - i;
+            l.style.zIndex = 100 + i;
+            l.style.animationDelay = k * 55 + 'ms';
+            l.classList.remove('tf', 'tb');
+            void l.offsetWidth;
+            l.classList.add(f ? 'tf' : 'tb');
+            l.classList.toggle('flipped', f);
+            setTimeout(
+              function () {
+                l.style.zIndex = z;
+                l.classList.remove('tf', 'tb');
+              },
+              750 + k * 55
+            );
+          });
+          book.style.setProperty('--sx', single ? '0%' : p === 0 ? '-25%' : p === N ? '25%' : '0%');
+          book.classList.toggle('open', !single && p > 0);
+          var m = single ? N - 1 : N;
+          prev.disabled = p === 0;
+          next.textContent = p >= m ? '✕' : '→';
+          next.setAttribute('aria-label', p >= m ? 'Close the book' : 'Next page');
+          st.textContent =
+            p >= m
+              ? 'The End · close the book'
+              : p === 0
+                ? 'Closed'
+                : single
+                  ? 'Page ' + (p + 1) + ' / ' + N
+                  : 'Spread ' + p + ' / ' + (N - 1);
+        }
+        function go(n) {
+          var m = single ? N - 1 : N,
+            o = p;
+          n = Math.max(0, Math.min(m, n));
+          if (n === o) return;
+          p = n;
+          render(false, o);
+        }
+        function fwd() {
+          p >= (single ? N - 1 : N) ? go(0) : go(p + 1);
+        }
+        prev.onclick = function () {
+          go(p - 1);
+        };
+        next.onclick = fwd;
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowRight') fwd();
+          if (e.key === 'ArrowLeft') go(p - 1);
+        });
+        var sx = null;
+        document.addEventListener(
+          'touchstart',
+          function (e) {
+            sx = e.touches[0].clientX;
+          },
+          { passive: true }
+        );
+        document.addEventListener('touchend', function (e) {
+          if (sx === null) return;
+          var d = e.changedTouches[0].clientX - sx;
+          if (Math.abs(d) > 50) d < 0 ? fwd() : go(p - 1);
+          sx = null;
+        });
+        document.addEventListener('pointermove', function (e) {
+          if (single || e.pointerType === 'touch') return;
+          book.style.setProperty('--ry', (e.clientX / innerWidth - 0.5) * 10 + 'deg');
+          book.style.setProperty('--rx', 14 - (e.clientY / innerHeight - 0.5) * 6 + 'deg');
+        });
+        mq.addEventListener('change', function () {
+          var idx = single ? p : Math.min(p * 2, pages.length - 1);
+          p = mq.matches ? idx : Math.ceil(idx / 2);
+          build();
+        });
+        var dust = document.getElementById('dust');
+        for (var i = 0; i < 12; i++) {
+          var s = document.createElement('span'),
+            z = 2 + Math.random() * 3;
+          s.style.cssText =
+            'left:' +
+            Math.random() * 100 +
+            '%;width:' +
+            z +
+            'px;height:' +
+            z +
+            'px;animation-duration:' +
+            (14 + Math.random() * 16) +
+            's;animation-delay:-' +
+            Math.random() * 20 +
+            's;--dx:' +
+            (Math.random() * 120 - 60) +
+            'px';
+          dust.appendChild(s);
+        }
+        build();
+      })();
+    </script>
+  </body>
+</html>
